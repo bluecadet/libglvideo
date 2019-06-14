@@ -25,6 +25,16 @@ Movie::Movie( const Context::ref &context, const string &filename, const Options
     AP4_ByteStream *input = NULL;
 
 
+	// allocate texture pool
+	m_textures = new GLuint[options.gpuBufferSize()];
+	m_texIsInstantiated = new bool[options.gpuBufferSize()];
+	for (int i = 0; i<options.gpuBufferSize(); i++)
+	{
+		m_texIsInstantiated[i] = false;
+	}
+
+	glGenTextures(options.gpuBufferSize(), m_textures);
+
     // Create input stream
 
     result = AP4_FileByteStream::Create( filename.c_str(),
@@ -243,7 +253,9 @@ void Movie::update()
         Frame::ref frame;
         if ( m_gpuFrameBuffer.try_pop( &frame ) ) {
 
-            frame->createTexture();
+			frame->createTexture(m_textures[m_texIndex], &m_texIsInstantiated[m_texIndex]);
+			m_texIndex = (m_texIndex + 1) % m_gpuFrameBuffer.size();
+
             m_currentFrame              = frame->getTexture();
             m_currentSample             = frame->getSample();
             m_forceRefreshCurrentFrame  = false;

@@ -53,13 +53,13 @@ public:
 
 
     /// Returns a ref to a new FrameTexture
-    static ref create( GLuint pbo, GLsizei imageSize, Format format = Format())
+    static ref create( GLuint pbo, GLsizei imageSize, GLuint tex, bool *texIsInstantiated, Format format = Format())
     {
-        return std::make_shared<FrameTexture>( pbo, imageSize, format );
+        return std::make_shared<FrameTexture>( pbo, imageSize, tex, texIsInstantiated, format );
     }
 
     /// Constructs a FrameTexture from data buffered in a PBO
-    FrameTexture( GLuint pbo, GLsizei imageSize, Format format = Format() );
+    FrameTexture( GLuint pbo, GLsizei imageSize, GLuint tex, bool *texIsInstantiated, Format format = Format() );
 
     /// Uses RAII to clean up GPU textures.
     ~FrameTexture();

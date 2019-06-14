@@ -218,5 +218,9 @@ private:
 	concurrent_buffer< Frame::ref > m_cpuFrameBuffer;
     concurrent_buffer< Frame::ref > m_gpuFrameBuffer;
 	clock::time_point m_lastFrameQueuedAt;
+
+	GLuint	*m_textures;
+	int		 m_texIndex = 0;
+	bool	*m_texIsInstantiated;
 };
 }

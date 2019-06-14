@@ -14,11 +14,11 @@ Frame::Frame( unsigned char const *const data, GLsizei imageSize, FrameTexture::
     copy( data, data + m_texSize, m_texData.get() );
 }
 
-void Frame::createTexture()
+void Frame::createTexture(GLuint tex, bool *texIsInstantiated)
 {
     if ( m_ftex ) return;
 
-    m_ftex = FrameTexture::create( m_pbo, m_texSize, m_texFormat );
+    m_ftex = FrameTexture::create( m_pbo, m_texSize, tex, texIsInstantiated, m_texFormat );
 }
 
 bool Frame::bufferTexture( GLuint pbo )
