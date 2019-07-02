@@ -253,13 +253,19 @@ void Movie::update()
         Frame::ref frame;
         if ( m_gpuFrameBuffer.try_pop( &frame ) ) {
 
-			frame->createTexture(m_textures[m_texIndex], &m_texIsInstantiated[m_texIndex]);
-			m_texIndex = (m_texIndex + 1) % m_gpuFrameBuffer.size();
+            if ( frame->isBuffered() ) {
+                frame->createTexture(m_textures[m_texIndex], &m_texIsInstantiated[m_texIndex]);
+                m_texIndex = (m_texIndex + 1) % m_gpuFrameBuffer.size();
 
-            m_currentFrame              = frame->getTexture();
-            m_currentSample             = frame->getSample();
-            m_forceRefreshCurrentFrame  = false;
-            m_lastFrameQueuedAt         = nextFrameAt;
+                m_currentFrame = frame->getTexture();
+                m_currentSample = frame->getSample();
+                m_forceRefreshCurrentFrame = false;
+                m_lastFrameQueuedAt = nextFrameAt;
+            }
+
+            else {
+                cerr << "Frame not buffered, dropping." << endl;
+            }
         }
     }
 }
