@@ -2,6 +2,7 @@
 #include <vector>
 #include <thread>
 #include <atomic>
+#include <functional>
 #include "concurrency.h"
 #include "FrameTexture.h"
 
