@@ -172,6 +172,10 @@ public:
     /// Fill buffers with samples.
     void prebuffer();
 
+    void addVideoEndedEventListener(std::function<void()> callback) {
+        mVideoEndedCallback = callback;
+    }
+
 private:
     std::string getTrackCodec( size_t index ) const;
     std::string getTrackCodec( AP4_Track * track ) const;
@@ -218,5 +222,6 @@ private:
 	concurrent_buffer< Frame::ref > m_cpuFrameBuffer;
     concurrent_buffer< Frame::ref > m_gpuFrameBuffer;
 	clock::time_point m_lastFrameQueuedAt;
+    std::function<void()> mVideoEndedCallback = nullptr;
 };
 }

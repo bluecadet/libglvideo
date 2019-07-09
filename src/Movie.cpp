@@ -280,6 +280,11 @@ void Movie::bufferNextGPUSample()
             if ( m_gpuFrameBuffer.try_push( frame ) ) {
                 m_currentPBO = ( m_currentPBO + 1 ) % m_pbos.size();
             }
+            if (m_readSample == m_numSamples - 1) {
+                if (mVideoEndedCallback) {
+                    mVideoEndedCallback();
+                }
+            }
         }
     }
 }
