@@ -243,17 +243,17 @@ void Movie::update()
         Frame::ref frame;
         if ( m_gpuFrameBuffer.try_pop( &frame ) ) {
 
-            if ( frame->isBuffered() ) {
+            //if ( frame->isBuffered() ) {
                 frame->createTexture();
                 m_currentFrame = frame->getTexture();
                 m_currentSample = frame->getSample();
                 m_forceRefreshCurrentFrame = false;
                 m_lastFrameQueuedAt = nextFrameAt;
-            }
+            //}
 
-            else {
-                cerr << "Frame not buffered, dropping." << endl;
-            }
+            //else {
+            //    cerr << "Frame not buffered, dropping." << endl;
+            //}
         }
     }
 }
