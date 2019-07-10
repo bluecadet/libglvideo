@@ -16,6 +16,10 @@ IF (MSVC)
     add_definitions(/wd4996)
     set(PLATFORM_LIBS opengl32)
     set(CONSOLE_SYSTEM WIN32)
+
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+
 ELSEIF (APPLE)
     # Create a nibless project per http://blog.hyperjeff.net/code?id=292
 
