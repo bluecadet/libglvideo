@@ -225,7 +225,6 @@ private:
 
 	GLuint	*m_textures;
 	int		 m_texIndex = 0;
-	bool	*m_texIsInstantiated;
     
     std::function<void()> mVideoEndedCallback = nullptr;
 };

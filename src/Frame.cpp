@@ -19,11 +19,11 @@ Frame::~Frame()
     if ( m_sync ) glDeleteSync( m_sync );
 }
 
-void Frame::createTexture()
+void Frame::createTexture(GLuint tex)
 {
     if ( m_ftex ) return;
 
-    m_ftex = FrameTexture::create( m_pbo, m_texSize, tex, texIsInstantiated, m_texFormat );
+    m_ftex = FrameTexture::create( m_pbo, m_texSize, tex, m_texFormat );
 }
 
 bool Frame::bufferTexture( GLuint pbo )

@@ -4,14 +4,18 @@
 
 using namespace glvideo;
 
-FrameTexture::FrameTexture(GLuint pbo, GLsizei imageSize, GLuint tex, bool *texIsInstantiated, Format format) :
+FrameTexture::FrameTexture(GLuint pbo, GLsizei imageSize, GLuint tex, Format format) :
 	m_target(GL_TEXTURE_2D),
 	m_tex(tex)
 {
+	float texW;
+	glGetTexLevelParameterfv(tex, 0, GL_TEXTURE_WIDTH, &texW);
 
 	glBindTexture(m_target, m_tex);
 	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
-	if (*texIsInstantiated) {
+
+	if (texW == format.width()) {
+		// texture has already been instantiated
 		if (format.compressed()) {
 			glCompressedTexSubImage2D(m_target,
 				0,
@@ -61,7 +65,6 @@ FrameTexture::FrameTexture(GLuint pbo, GLsizei imageSize, GLuint tex, bool *texI
 				NULL);
 		}
 
-		*texIsInstantiated = true;
 	}
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

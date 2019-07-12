@@ -34,7 +34,7 @@ public:
     bool waitForBuffer( double timeoutSeconds = 1.0 / 60.0 );
     bool waitForBuffer( GLuint64 timeoutNanoseconds );
     bool bufferTexture( GLuint pbo );
-    void createTexture( GLuint tex, bool *texIsInstantiated );
+    void createTexture( GLuint tex );
 
     size_t getSample() const { return m_sample; }
 

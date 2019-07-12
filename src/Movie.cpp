@@ -27,12 +27,6 @@ Movie::Movie( const Context::ref &context, const string &filename, const Options
 
 	// allocate texture pool
 	m_textures = new GLuint[options.gpuBufferSize()];
-	m_texIsInstantiated = new bool[options.gpuBufferSize()];
-	for (int i = 0; i<options.gpuBufferSize(); i++)
-	{
-		m_texIsInstantiated[i] = false;
-	}
-
 	glGenTextures(options.gpuBufferSize(), m_textures);
 
     // Create input stream
@@ -254,11 +248,13 @@ void Movie::update()
         if ( m_gpuFrameBuffer.try_pop( &frame ) ) {
 
             //if ( frame->isBuffered() ) {
-                frame->createTexture();
+                frame->createTexture(m_textures[m_texIndex]);
                 m_currentFrame = frame->getTexture();
                 m_currentSample = frame->getSample();
                 m_forceRefreshCurrentFrame = false;
                 m_lastFrameQueuedAt = nextFrameAt;
+
+				m_texIndex = (m_texIndex + 1) % m_gpuFrameBuffer.size();
             //}
 
             //else {
