@@ -1,4 +1,3 @@
-#include <iostream>
 #include "FrameTexture.h"
 #include "gl_includes.h"
 
@@ -8,61 +7,30 @@ FrameTexture::FrameTexture(GLuint pbo, GLsizei imageSize, GLuint tex, Format for
 	m_target(GL_TEXTURE_2D),
 	m_tex(tex)
 {
-	float texW;
-	glGetTexLevelParameterfv(tex, 0, GL_TEXTURE_WIDTH, &texW);
-
 	glBindTexture(m_target, m_tex);
 	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
 
+	float texW;
+	glGetTexLevelParameterfv(tex, 0, GL_TEXTURE_WIDTH, &texW);
+
+	// check if texture has already been instantiated so that
+	// the subImage functions can be used for better performance
 	if (texW == format.width()) {
-		// texture has already been instantiated
 		if (format.compressed()) {
-			glCompressedTexSubImage2D(m_target,
-				0,
-				0,
-				0,
-				format.width(),
-				format.height(),
-				format.internalFormat(),
-				imageSize,
-				NULL);
+			glCompressedTexSubImage2D(m_target, 0, 0, 0, format.width(), format.height(), format.internalFormat(), imageSize, NULL);
 			glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		}
 		else {
-			glTexSubImage2D(m_target,
-				0,
-				format.internalFormat(),
-				format.width(),
-				format.height(),
-				0,
-				format.format(),
-				GL_UNSIGNED_BYTE,
-				NULL);
+			glTexSubImage2D(m_target, 0, format.internalFormat(), format.width(), format.height(), 0, format.format(), GL_UNSIGNED_BYTE, NULL);
 		}
-		std::cout << "V2\n";
 	}
 	else {
 		if (format.compressed()) {
-			glCompressedTexImage2D(m_target,
-				0,
-				format.internalFormat(),
-				format.width(),
-				format.height(),
-				0,
-				imageSize,
-				NULL);
+			glCompressedTexImage2D(m_target, 0, format.internalFormat(), format.width(), format.height(), 0, imageSize, NULL);
 			glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		}
 		else {
-			glTexImage2D(m_target,
-				0,
-				format.internalFormat(),
-				format.width(),
-				format.height(),
-				0,
-				format.format(),
-				GL_UNSIGNED_BYTE,
-				NULL);
+			glTexImage2D(m_target, 0, format.internalFormat(), format.width(), format.height(), 0, format.format(), GL_UNSIGNED_BYTE, NULL);
 		}
 
 	}
