@@ -253,19 +253,17 @@ void Movie::update()
         Frame::ref frame;
         if ( m_gpuFrameBuffer.try_pop( &frame ) ) {
 
-            if ( frame->isBuffered() ) {
-                frame->createTexture(m_textures[m_texIndex], &m_texIsInstantiated[m_texIndex]);
-                m_texIndex = (m_texIndex + 1) % m_gpuFrameBuffer.size();
-
+            //if ( frame->isBuffered() ) {
+                frame->createTexture();
                 m_currentFrame = frame->getTexture();
                 m_currentSample = frame->getSample();
                 m_forceRefreshCurrentFrame = false;
                 m_lastFrameQueuedAt = nextFrameAt;
-            }
+            //}
 
-            else {
-                cerr << "Frame not buffered, dropping." << endl;
-            }
+            //else {
+            //    cerr << "Frame not buffered, dropping." << endl;
+            //}
         }
     }
 }
@@ -291,6 +289,11 @@ void Movie::bufferNextGPUSample()
             frame->bufferTexture( m_pbos[ m_currentPBO ] );
             if ( m_gpuFrameBuffer.try_push( frame ) ) {
                 m_currentPBO = ( m_currentPBO + 1 ) % m_pbos.size();
+            }
+            if (m_readSample == m_numSamples - 1) {
+                if (mVideoEndedCallback) {
+                    mVideoEndedCallback();
+                }
             }
         }
     }

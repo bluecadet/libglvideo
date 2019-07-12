@@ -172,6 +172,10 @@ public:
     /// Fill buffers with samples.
     void prebuffer();
 
+    void addVideoEndedEventListener(std::function<void()> callback) {
+        mVideoEndedCallback = callback;
+    }
+
 private:
     std::string getTrackCodec( size_t index ) const;
     std::string getTrackCodec( AP4_Track * track ) const;
@@ -222,5 +226,7 @@ private:
 	GLuint	*m_textures;
 	int		 m_texIndex = 0;
 	bool	*m_texIsInstantiated;
+    
+    std::function<void()> mVideoEndedCallback = nullptr;
 };
 }
