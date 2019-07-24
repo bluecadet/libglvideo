@@ -350,6 +350,7 @@ Movie & Movie::seekToSample( size_t sample )
     if ( sample >= m_numSamples ) sample = m_numSamples - 1;
 
     m_readSample = sample;
+	m_currentSample = sample;
 
     m_cpuFrameBuffer.clear();
     m_forceRefreshCurrentFrame = true;
