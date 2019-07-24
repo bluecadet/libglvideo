@@ -236,6 +236,8 @@ void Movie::update()
     if ( refresh && m_cpuFrameBuffer.empty() ) bufferNextCPUSample();
     bufferNextGPUSample();
 
+	if (!m_isPlaying) return;
+
     const auto nextFrameAt = m_lastFrameQueuedAt + chrono::duration_cast< clock::duration >( m_spf / m_playbackRate );
 
     auto now = clock::now();
@@ -353,6 +355,7 @@ Movie & Movie::seekToSample( size_t sample )
 	m_currentSample = sample;
 
     m_cpuFrameBuffer.clear();
+	m_gpuFrameBuffer.clear();
     m_forceRefreshCurrentFrame = true;
 
     return *this;
