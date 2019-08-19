@@ -135,7 +135,7 @@ seconds Movie::getDuration() const
 
 seconds Movie::getElapsedTime() const
 {
-    return (double)m_currentSample / (double)m_numSamples * getDuration();
+    return (double)m_readSample / (double)m_numSamples * getDuration();
 }
 
 seconds Movie::getRemainingTime() const
