@@ -236,6 +236,10 @@ void Movie::update()
     if ( refresh && m_cpuFrameBuffer.empty() ) bufferNextCPUSample();
     bufferNextGPUSample();
 
+	if (mVideoEndedCallback && (m_readSample >= m_numSamples - 1)) {
+		mVideoEndedCallback();
+	}
+
     const auto nextFrameAt = m_lastFrameQueuedAt + chrono::duration_cast< clock::duration >( m_spf / m_playbackRate );
 
     auto now = clock::now();
@@ -279,11 +283,6 @@ void Movie::bufferNextGPUSample()
             frame->bufferTexture( m_pbos[ m_currentPBO ] );
             if ( m_gpuFrameBuffer.try_push( frame ) ) {
                 m_currentPBO = ( m_currentPBO + 1 ) % m_pbos.size();
-            }
-            if (m_readSample == m_numSamples - 1) {
-                if (mVideoEndedCallback) {
-                    mVideoEndedCallback();
-                }
             }
         }
     }
