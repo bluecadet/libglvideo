@@ -240,8 +240,6 @@ void Movie::update()
 		mVideoEndedCallback();
 	}
 
-	if (!m_isPlaying) return;
-
     const auto nextFrameAt = m_lastFrameQueuedAt + chrono::duration_cast< clock::duration >( m_spf / m_playbackRate );
 
     auto now = clock::now();
