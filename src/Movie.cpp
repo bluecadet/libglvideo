@@ -236,7 +236,7 @@ void Movie::update()
     if ( refresh && m_cpuFrameBuffer.empty() ) bufferNextCPUSample();
     bufferNextGPUSample();
 
-	if (mVideoEndedCallback && (m_readSample >= m_numSamples - 1)) {
+	if (mVideoEndedCallback && (m_readSample == m_numSamples)) {
 		mVideoEndedCallback();
 	}
 
