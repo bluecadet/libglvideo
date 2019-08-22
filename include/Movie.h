@@ -164,6 +164,9 @@ public:
     /// Returns the current Frame.
     FrameTexture::ref getCurrentFrame() const;
 
+	/// Returns the number of samples
+	size_t getNumSamples() { return m_numSamples; }
+
 	/// Returns the current sample number
 	size_t getCurrentSample() { return m_currentSample; }
 
