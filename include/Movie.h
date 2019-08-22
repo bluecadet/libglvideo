@@ -164,6 +164,22 @@ public:
     /// Returns the current Frame.
     FrameTexture::ref getCurrentFrame() const;
 
+	/// Returns the number of samples
+	size_t getNumSamples() { return m_numSamples; }
+
+	/// Returns the current sample number
+	size_t getCurrentSample() { return m_currentSample; }
+
+	/// Returns the read sample number
+	size_t getReadSample() { return m_readSample; }
+	
+	/// Returns the number of frames in use in CPUFrameBuffer
+	size_t getNumCPUFrameBuffer() { return m_cpuFrameBuffer.size() - m_cpuFrameBuffer.remainingSize(); }
+
+	/// Returns the number of frames in use in GPUFrameBuffer
+	size_t getNumGPUFrameBuffer() { return m_gpuFrameBuffer.size() - m_gpuFrameBuffer.remainingSize(); }
+
+
     /// Call this in the application update method.
     /// Buffers frames to the GPU in the current OpenGL context and queues the
     /// next frame.
